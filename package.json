@@ -1,11 +1,10 @@
 {
   "name": "cafe",
   "version": "1.0.0",
-  "description": "카페 메뉴 CRUD 웹 페이지 (express + ejs + mysql2)",
+  "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "initdb": "node init-db.js"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",

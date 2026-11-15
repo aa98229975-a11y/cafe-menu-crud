@@ -2,16 +2,12 @@
 
 <div class="toolbar">
   <h2>메뉴 목록 <span class="count"><%= menus.length %>개</span></h2>
-  <a class="btn primary" href="/menu/add">+ 메뉴 등록</a>
+  <a class="btn primary" href="/menu/add">메뉴 등록</a>
 </div>
 
-<% if (msg) { %>
-  <p class="notice"><%= msg %></p>
-<% } %>
-
 <div class="card">
-  <% if (menus.length === 0) { %>
-    <p class="empty">등록된 메뉴가 없습니다. 오른쪽 위 <strong>메뉴 등록</strong>을 눌러 추가하세요.</p>
+  <% if (menus.length == 0) { %>
+    <p class="empty">등록된 메뉴가 없습니다.</p>
   <% } else { %>
     <table>
       <thead>
@@ -24,22 +20,21 @@
         </tr>
       </thead>
       <tbody>
-        <% menus.forEach((m) => { %>
-          <% const badge = { '커피': 'coffee', '티': 'tea', '음료': 'drink', '디저트': 'dessert' }[m.category] || 'etc'; %>
+        <% for (let m of menus) { %>
           <tr>
             <td class="id"><%= m.id %></td>
             <td class="name"><%= m.name %></td>
-            <td class="price"><%= won(m.price) %></td>
-            <td><span class="badge <%= badge %>"><%= m.category %></span></td>
+            <td class="price"><%= m.price.toLocaleString() %>원</td>
+            <td><span class="badge <%= m.category %>"><%= m.category %></span></td>
             <td class="manage">
               <a class="btn small" href="/menu/edit/<%= m.id %>">수정</a>
-              <form class="inline" method="post" action="/menu/delete/<%= m.id %>" data-name="<%= m.name %>"
-                    onsubmit="return confirm('「' + this.dataset.name + '」 메뉴를 삭제할까요?');">
+              <!-- 삭제는 form으로 post 보냄 -->
+              <form class="inline" method="post" action="/menu/delete/<%= m.id %>" onsubmit="return confirm('삭제할까요?');">
                 <button class="btn small danger" type="submit">삭제</button>
               </form>
             </td>
           </tr>
-        <% }) %>
+        <% } %>
       </tbody>
     </table>
   <% } %>
