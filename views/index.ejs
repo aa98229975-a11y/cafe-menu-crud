@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+
+<div class="toolbar">
+  <h2>메뉴 목록 <span class="count"><%= menus.length %>개</span></h2>
+  <a class="btn primary" href="/menu/add">+ 메뉴 등록</a>
+</div>
+
+<% if (msg) { %>
+  <p class="notice"><%= msg %></p>
+<% } %>
+
+<div class="card">
+  <% if (menus.length === 0) { %>
+    <p class="empty">등록된 메뉴가 없습니다. 오른쪽 위 <strong>메뉴 등록</strong>을 눌러 추가하세요.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th class="id">번호</th>
+          <th>메뉴 이름</th>
+          <th class="price">가격</th>
+          <th>카테고리</th>
+          <th class="manage">관리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% menus.forEach((m) => { %>
+          <% const badge = { '커피': 'coffee', '티': 'tea', '음료': 'drink', '디저트': 'dessert' }[m.category] || 'etc'; %>
+          <tr>
+            <td class="id"><%= m.id %></td>
+            <td class="name"><%= m.name %></td>
+            <td class="price"><%= won(m.price) %></td>
+            <td><span class="badge <%= badge %>"><%= m.category %></span></td>
+            <td class="manage">
+              <a class="btn small" href="/menu/edit/<%= m.id %>">수정</a>
+              <form class="inline" method="post" action="/menu/delete/<%= m.id %>" data-name="<%= m.name %>"
+                    onsubmit="return confirm('「' + this.dataset.name + '」 메뉴를 삭제할까요?');">
+                <button class="btn small danger" type="submit">삭제</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>
